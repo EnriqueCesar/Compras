@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#006241">
+  <meta name="description" content="Dashboard ejecutivo de compras de la Región Centro Norte.">
+  <title>Compras | Centro Norte</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="vendor/xlsx.full.min.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Saltar al contenido</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal">
+      <div class="brand-block">
+        <img class="brand-logo" src="assets/images/compras.png" alt="Compras">
+        <div><p class="eyebrow">Starbucks México</p><h1>Compras</h1><span>Centro Norte</span></div>
+      </div>
+      <nav class="nav-cards" aria-label="Secciones">
+        <button class="nav-card is-active" data-section="inicio" type="button"><span class="nav-icon">⌂</span><span>Inicio</span></button>
+        <button class="nav-card" data-section="compras" type="button"><span class="nav-icon">≡</span><span>Compras</span></button>
+        <button class="nav-card" data-section="dashboard" type="button"><span class="nav-icon">↗</span><span>Dashboard Ejecutivo</span></button>
+      </nav>
+      <div class="sidebar-foot"><strong id="sourceState">Cargando Excel…</strong><span id="rowState">0 registros</span></div>
+    </aside>
+
+    <main id="mainContent" class="main-content" tabindex="-1">
+      <header class="hero-panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Gestión de compras</p>
+          <h2>Visibilidad ejecutiva de la Región Centro Norte</h2>
+          <p class="hero-text" id="friendlyStatus">Preparando información…</p>
+          <p class="updated" id="lastUpdated">Actualizado: --/--</p>
+          <div class="hero-actions">
+            <label class="file-action">Actualizar Excel<input id="fileInput" type="file" accept=".xlsx,.xls"></label>
+            <button class="ghost-action" id="resetFilters" type="button">Limpiar filtros</button>
+          </div>
+        </div>
+        <div class="hero-art"><img src="assets/images/compras.png" alt="Ilustración de compras"></div>
+      </header>
+
+      <section class="filter-panel" aria-labelledby="filterTitle">
+        <div class="section-heading compact"><div><p class="eyebrow">Filtros</p><h3 id="filterTitle">Explora la información</h3></div><p class="filter-count" id="filterCount">Cargando…</p></div>
+        <div class="filters-grid">
+          <label>Región<select id="regionFilter"><option value="">Todas</option></select></label>
+          <label>DM<select id="dmFilter"><option value="">Todos</option></select></label>
+          <label>Tienda<select id="storeFilter"><option value="">Todas</option></select></label>
+          <label>Clasificación<select id="classificationFilter"><option value="">Todas</option></select></label>
+          <label>Ingrediente<select id="ingredientFilter"><option value="">Todos</option></select></label>
+          <label>Proveedor<select id="providerFilter"><option value="">Todos</option></select></label>
+          <label>Fecha desde<input id="dateFromFilter" type="date"></label>
+          <label>Fecha hasta<input id="dateToFilter" type="date"></label>
+          <label class="wide">Búsqueda rápida<input id="searchFilter" type="search" placeholder="Tienda, CeCo, ingrediente, proveedor o clasificación"></label>
+        </div>
+      </section>
+
+      <section class="content-section is-visible" data-view="inicio">
+        <div class="kpi-grid" id="kpiGrid"></div>
+        <div class="home-grid">
+          <article class="card"><div class="card-header"><div><p class="eyebrow">Distribución</p><h3>Compra por clasificación</h3></div></div><div id="homeClassification" class="mini-ranking"></div></article>
+          <article class="card"><div class="card-header"><div><p class="eyebrow">Tiendas</p><h3>Top compra por tienda</h3></div></div><div id="homeStores" class="mini-ranking"></div></article>
+        </div>
+      </section>
+
+      <section class="content-section" data-view="compras">
+        <article class="card full-card">
+          <div class="card-header"><div><p class="eyebrow">Detalle</p><h3>Compras filtradas</h3></div><div class="card-actions"><span class="badge" id="tableBadge"></span><button class="primary-action" id="exportExcel" type="button">Exportar Excel</button></div></div>
+          <div class="table-wrap"><table id="purchaseTable"><thead><tr>
+            <th data-sort="store">Tienda</th><th data-sort="ceco">CeCo</th><th data-sort="ingredient">Ingrediente</th><th data-sort="classification">Clasificación</th><th data-sort="quantity" class="num">Cantidad</th><th data-sort="total" class="num">Compra $</th><th data-sort="provider">Proveedor</th><th data-sort="date">Fecha</th>
+          </tr></thead><tbody id="purchaseRows"></tbody></table></div>
+          <div class="pagination"><button id="prevPage" type="button">Anterior</button><span id="pageState"></span><button id="nextPage" type="button">Siguiente</button></div>
+        </article>
+      </section>
+
+      <section class="content-section" data-view="dashboard">
+        <div class="chart-grid">
+          <article class="card"><div class="card-header"><h3>Compra por Clasificación</h3></div><div id="chartClassification" class="chart"></div></article>
+          <article class="card"><div class="card-header"><h3>Compra por Tienda</h3></div><div id="chartStore" class="chart"></div></article>
+          <article class="card"><div class="card-header"><h3>Compra por DM</h3></div><div id="chartDm" class="chart"></div></article>
+          <article class="card"><div class="card-header"><h3>Compra por Proveedor</h3></div><div id="chartProvider" class="chart"></div></article>
+          <article class="card"><div class="card-header"><h3>Top Ingredientes</h3></div><div id="chartIngredient" class="chart"></div></article>
+          <article class="card"><div class="card-header"><h3>Tendencia por Fecha</h3></div><div id="chartTrend" class="chart"></div></article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
