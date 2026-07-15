@@ -79,9 +79,10 @@
       <section class="content-section" data-view="compras">
         <article class="card full-card">
           <div class="card-header"><div><p class="eyebrow">Detalle</p><h3>Compras filtradas</h3></div><div class="card-actions"><span class="badge" id="tableBadge"></span><button class="primary-action" id="exportExcel" type="button">Exportar Excel</button></div></div>
+          <div class="detail-subtotal" aria-label="Subtotal de la selección actual"><div><span>Cantidad total</span><strong id="detailSubtotalQuantity">0</strong></div><div><span>Compra total $</span><strong id="detailSubtotalPurchase">$0.00</strong></div></div>
           <div class="table-wrap"><table id="purchaseTable"><thead><tr>
-            <th data-sort="store">Tienda</th><th data-sort="ingredient">Ingrediente</th><th data-sort="quantity" class="num">Cantidad</th><th data-sort="total" class="num">Compra $</th><th data-sort="date">Fecha</th>
-          </tr></thead><tbody id="purchaseRows"></tbody><tfoot><tr class="subtotal-row"><td>Subtotal</td><td></td><td id="subtotalQuantity" class="num">0</td><td id="subtotalPurchase" class="num">$0.00</td><td></td></tr></tfoot></table></div>
+            <th data-sort="store">Tienda</th><th data-sort="ingredient">Ingrediente</th><th data-sort="unit">Unidad de Medida</th><th data-sort="quantity" class="num">Cantidad</th><th data-sort="total" class="num">Compra $</th><th data-sort="date">Fecha</th>
+          </tr></thead><tbody id="purchaseRows"></tbody><tfoot><tr class="subtotal-row"><td>Subtotal</td><td></td><td></td><td id="subtotalQuantity" class="num">0</td><td id="subtotalPurchase" class="num">$0.00</td><td></td></tr></tfoot></table></div>
           <div class="pagination"><button id="prevPage" type="button">Anterior</button><span id="pageState"></span><button id="nextPage" type="button">Siguiente</button></div>
         </article>
       </section>
